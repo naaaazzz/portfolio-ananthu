@@ -8,6 +8,11 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
+  // The homepage has a dark hero background fold where text needs to be white initially.
+  // Other pages have light backgrounds and require dark navbar text from the start.
+  const isDarkHeader = pathName === "/";
+  const isTextWhite = !isScrolled && isDarkHeader;
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 20) {
@@ -39,14 +44,16 @@ const Navbar = () => {
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center font-serif text-[22px] md:text-[26px] font-semibold tracking-tighter text-[#1a1a1a] hover:opacity-75 transition-opacity group"
+            className={`flex items-center font-serif text-[22px] md:text-[26px] font-semibold tracking-tighter hover:opacity-75 transition-opacity group transition-colors duration-300 ${
+              isTextWhite ? "text-white" : "text-[#1a1a1a]"
+            }`}
             onClick={() => setIsOpen(false)}
           >
             <svg width="36" height="36" viewBox="0 0 100 100" className="mr-3 select-none transition-transform duration-500 group-hover:rotate-12">
               <circle cx="50" cy="50" r="45" fill="none" stroke="#a68966" strokeWidth="2.5" />
-              <path d="M 32 70 L 48 25 L 56 45" fill="none" stroke="#1a1a1a" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M 38 52 H 52" fill="none" stroke="#1a1a1a" strokeWidth="3" strokeLinecap="round" />
-              <path d="M 54 70 V 35 L 72 70 V 35" fill="none" stroke="#1a1a1a" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M 32 70 L 48 25 L 56 45" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M 38 52 H 52" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+              <path d="M 54 70 V 35 L 72 70 V 35" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             <span>ANANTHU NIBIN</span>
           </Link>
@@ -61,7 +68,11 @@ const Navbar = () => {
                   href={link.href}
                   className={`relative pb-1 transition-colors duration-300 ${
                     isActive
-                      ? "text-[#1a1a1a] border-b-2 border-[#1a1a1a]"
+                      ? isTextWhite
+                        ? "text-white border-b-2 border-white"
+                        : "text-[#1a1a1a] border-b-2 border-[#1a1a1a]"
+                      : isTextWhite
+                      ? "text-white/70 hover:text-white"
                       : "text-[#707070] hover:text-[#1a1a1a]"
                   }`}
                 >
@@ -75,7 +86,11 @@ const Navbar = () => {
           <div className="flex items-center gap-4">
             <Link
               href="/ContactUs"
-              className="hidden md:inline-block px-6 py-3 border border-[#707070] text-[#1a1a1a] font-sans text-[12px] font-semibold uppercase tracking-widest hover:bg-[#1a1a1a] hover:text-white transition-colors duration-300"
+              className={`hidden md:inline-block px-6 py-3 border font-sans text-[12px] font-semibold uppercase tracking-widest transition-colors duration-300 ${
+                isTextWhite
+                  ? "border-white text-white hover:bg-white hover:text-[#1a1a1a]"
+                  : "border-[#707070] text-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white"
+              }`}
             >
               Book Consultation
             </Link>
@@ -83,7 +98,9 @@ const Navbar = () => {
             {/* Hamburger Icon */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden text-[#1a1a1a] focus:outline-none p-1"
+              className={`md:hidden focus:outline-none p-1 transition-colors duration-300 ${
+                isOpen || !isTextWhite ? "text-[#1a1a1a]" : "text-white"
+              }`}
               aria-label="Toggle Menu"
             >
               <span className="material-symbols-outlined text-[28px]">
