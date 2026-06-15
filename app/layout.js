@@ -18,6 +18,9 @@ const inter = Inter({
 export const metadata = {
   title: "Ananthu Nibin | Luxury Interior Architecture",
   description: "Sculpting space with intention. Ananthu Nibin is an architectural design studio dedicated to the pursuit of minimalist elegance and quiet luxury.",
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export default function RootLayout({ children }) {
